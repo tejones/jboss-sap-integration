@@ -16,7 +16,7 @@ public class MainApp {
 		Main main = new Main();
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 
-		ds.setDriverClassName("sybase.jdbc.sqlanywhere.IDriver");
+		ds.setDriverClassName("sap.jdbc4.sqlanywhere.IDriver");
 		ds.setUrl("jdbc:datasource:Host=localhost:2638;uid=DBA;pwd=sql;eng=golf");
 		ds.setUsername("DBA");
 		ds.setPassword("sql");	 
