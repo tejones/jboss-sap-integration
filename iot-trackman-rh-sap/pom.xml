@@ -17,6 +17,7 @@
 		<maven-bundle-plugin.version>3.0.1</maven-bundle-plugin.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<camel.version>2.17.2</camel.version>
+		<json-simple.version>1.1.1</json-simple.version>
 	</properties>
 
 	<dependencies>
@@ -84,6 +85,13 @@
 			<artifactId>camel-core</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>${json-simple.version}</version>
+        </dependency>
 	</dependencies>
 
 	<build>
