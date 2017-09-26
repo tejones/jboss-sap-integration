@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.redhat.iot.trackman.datagen.domain.BallPosition;
@@ -26,6 +27,7 @@ final class SideShotViewer extends JPanel {
 
     public SideShotViewer( final ViewerModel model ) throws Exception {
         this.model = model;
+        setBorder( BorderFactory.createLineBorder( Color.black ) );
     }
 
     @Override
@@ -101,7 +103,7 @@ final class SideShotViewer extends JPanel {
             final Color saveColor = g2.getColor();
 
             // draw title
-            final String title = "Side-To-Side (meters)";
+            final String title = "Top View (meters)";
             final FontMetrics metrics = g2.getFontMetrics();
             final int labelWidth = metrics.stringWidth( title );
             final AffineTransform at = new AffineTransform();
@@ -162,9 +164,6 @@ final class SideShotViewer extends JPanel {
                      getWidth() - this.model.getPadding(),
                      getHeight() - this.model.getPadding() - this.model.getLabelPadding() );
 
-        // draw lines
-        int colorIndex = 0;
-
         { // draw center line
             final Stroke saveStroke = g2.getStroke();
             g2.setColor( Color.GRAY );
@@ -181,30 +180,53 @@ final class SideShotViewer extends JPanel {
         }
 
         // plot shots
+        Color lastLineColor = null;
+        int colorIndex = 0;
+        int lastX = 0;
+        int lastY = 0;
+
         for ( final String shotId : sideGraphPoints.keySet() ) {
             final List< Point > points = sideGraphPoints.get( shotId );
 
             final Stroke oldStroke = g2.getStroke();
-            g2.setColor( ViewerModel.LINE_COLORS[ colorIndex ] );
+            final Color lineColor = ViewerModel.LINE_COLORS[ colorIndex ];
+            g2.setColor( lineColor );
             g2.setStroke( ViewerModel.GRAPH_STROKE );
 
             for ( int i = 0, size = points.size() - 1; i < size; ++i ) {
                 final int xOne = points.get( i ).x;
                 final int yOne = points.get( i ).y;
                 final int xTwo = points.get( i + 1 ).x;
+                lastX = xTwo;
                 final int yTwo = points.get( i + 1 ).y;
+                lastY = yTwo;
                 g2.drawLine( xOne, yOne, xTwo, yTwo );
             }
 
             g2.setStroke( oldStroke );
             g2.setColor( ViewerModel.POINT_COLORS[ colorIndex ] );
+            
+            Point lastPoint = null;
 
             for ( final Point point : points ) {
+                lastPoint = point;
                 final int x = point.x - ( this.model.getPointWidth() / 2 );
                 final int y = point.y - ( this.model.getPointWidth() / 2 );
                 final int ovalW = this.model.getPointWidth();
                 final int ovalH = this.model.getPointWidth();
                 g2.fillOval( x, y, ovalW, ovalH );
+            }
+
+            { // plot shot label
+                final Color saveColor = g2.getColor();
+                final boolean ironShot = lastPoint.x < 200 * xScale;
+                final String label = ( ironShot ? "Mean Iron Shot" : "Mean Driver Shot" );
+                final int labelWidth = g2.getFontMetrics().stringWidth( label );
+                g2.setColor( lastLineColor );
+                final int x = ironShot ? lastX : lastX - ( 2 * labelWidth );
+                final int y = ironShot ? lastY - 20 : lastY - 50;
+                g2.drawString( label, x, y );
+                g2.setColor( saveColor );
             }
 
             colorIndex++;

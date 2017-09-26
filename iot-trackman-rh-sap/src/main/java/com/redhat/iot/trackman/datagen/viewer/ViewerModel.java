@@ -13,20 +13,20 @@ final class ViewerModel {
 
     public static final Stroke GRAPH_STROKE = new BasicStroke( 2f );
 
-    public static final Color[] LINE_COLORS = new Color[] { new Color( 89, 79, 148 ),
-                                                            new Color( 95, 76, 255 ),
-                                                            new Color( 0, 229, 112 ),
-                                                            new Color( 229, 0, 99 ),
+    public static final Color[] LINE_COLORS = new Color[] { new Color( 95, 76, 255 ),
                                                             new Color( 255, 120, 76 ),
                                                             new Color( 233, 231, 73 ),
+                                                            new Color( 229, 0, 99 ),
+                                                            new Color( 0, 229, 112 ),
+                                                            new Color( 89, 79, 148 ),
                                                             new Color( 127, 127, 127 ), };
 
-    public static final Color[] POINT_COLORS = new Color[] { new Color( 16, 11, 58 ),
-                                                             new Color( 25, 0, 229 ),
-                                                             new Color( 0, 178, 87 ),
-                                                             new Color( 153, 0, 76 ),
+    public static final Color[] POINT_COLORS = new Color[] { new Color( 25, 0, 229 ),
                                                              new Color( 153, 37, 0 ),
                                                              new Color( 204, 201, 0 ),
+                                                             new Color( 0, 178, 87 ),
+                                                             new Color( 153, 0, 76 ),
+                                                             new Color( 16, 11, 58 ),
                                                              new Color( 19, 19, 22 ), };
 
     private Color backgroundColor = Color.WHITE;
@@ -35,7 +35,7 @@ final class ViewerModel {
     private Color foregroundColor = Color.BLACK;
     private Color gridColor = new Color( 200, 200, 200, 200 );
     private int heightSize;
-    private int labelPadding = 50;
+    private int labelPadding = 40;
     private double maxDistance;
     private double maxHeight;
     private double maxSide;
