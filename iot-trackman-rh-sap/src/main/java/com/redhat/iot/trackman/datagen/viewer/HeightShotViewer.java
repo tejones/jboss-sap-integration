@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.redhat.iot.trackman.datagen.domain.BallPosition;
@@ -25,6 +26,7 @@ final class HeightShotViewer extends JPanel {
 
     public HeightShotViewer( final ViewerModel model ) throws Exception {
         this.model = model;
+        setBorder( BorderFactory.createLineBorder( Color.black ) );
     }
 
     @Override
@@ -99,7 +101,7 @@ final class HeightShotViewer extends JPanel {
             final Color saveColor = g2.getColor();
             
             // draw title
-            final String title = "Height Above Ground (meters)";
+            final String title = "Side View (meters)";
             final FontMetrics metrics = g2.getFontMetrics();
             final int labelWidth = metrics.stringWidth( title );
             final AffineTransform at = new AffineTransform();
@@ -160,27 +162,37 @@ final class HeightShotViewer extends JPanel {
                      getHeight() - this.model.getPadding() - this.model.getLabelPadding() );
 
         // plot shots
+        Color lastLineColor = null;
         int colorIndex = 0;
+        int lastX = 0;
+        int lastY = 0;
 
         for ( final String shotId : heightGraphPoints.keySet() ) {
             final List< Point > points = heightGraphPoints.get( shotId );
 
             final Stroke oldStroke = g2.getStroke();
-            g2.setColor( ViewerModel.LINE_COLORS[ colorIndex ] );
+            final Color lineColor = ViewerModel.LINE_COLORS[ colorIndex ];
+            lastLineColor = lineColor;
+            g2.setColor( lineColor );
             g2.setStroke( ViewerModel.GRAPH_STROKE );
 
             for ( int i = 0, size = points.size() - 1; i < size; ++i ) {
                 final int x1 = points.get( i ).x;
                 final int y1 = points.get( i ).y;
                 final int x2 = points.get( i + 1 ).x;
+                lastX = x2;
                 final int y2 = points.get( i + 1 ).y;
+                lastY = y2;
                 g2.drawLine( x1, y1, x2, y2 );
             }
 
             g2.setStroke( oldStroke );
             g2.setColor( ViewerModel.POINT_COLORS[ colorIndex ] );
+            
+            Point lastPoint = null;
 
             for ( final Point point : points ) {
+                lastPoint = point;
                 final int x = point.x - ( this.model.getPointWidth() / 2 );
                 final int y = point.y - ( this.model.getPointWidth() / 2 );
                 final int ovalW = this.model.getPointWidth();
@@ -188,6 +200,17 @@ final class HeightShotViewer extends JPanel {
                 g2.fillOval( x, y, ovalW, ovalH );
             }
 
+            { // plot shot label
+                final Color saveColor = g2.getColor();
+                final String label = ( lastPoint.x < 200 * xScale ? "Mean Iron Shot" : "Mean Driver Shot" );
+                final int labelWidth = g2.getFontMetrics().stringWidth( label );
+                g2.setColor( lastLineColor );
+                g2.drawString( label,
+                               lastX - labelWidth - this.model.getLabelPadding(),
+                               lastY - 20 );
+                g2.setColor( saveColor );
+            }
+            
             colorIndex++;
 
             if ( colorIndex > ( ViewerModel.LINE_COLORS.length - 1 ) ) {
