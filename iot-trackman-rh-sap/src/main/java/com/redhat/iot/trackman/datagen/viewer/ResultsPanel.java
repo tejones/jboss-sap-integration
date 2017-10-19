@@ -5,8 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 public final class ResultsPanel extends JPanel {
 
@@ -15,37 +15,52 @@ public final class ResultsPanel extends JPanel {
     public ResultsPanel() {
         setBackground( Color.WHITE );
         setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
-        setLayout( new GridBagLayout());
+        setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints();
-        
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JTextArea txaNotes = new JTextArea(20, 1);
-        txaNotes.setLineWrap( true );
-        txaNotes.setWrapStyleWord( true );
+        final JEditorPane results = new JEditorPane( "text/html", getResults() );
+        results.setText( getResults() );
+        add( results, gbc );
+    }
+
+    private String getResults() {
         final StringBuilder notes = new StringBuilder();
-        notes.append( "We look at many attributes of your shot to determine the appropriate training plan. Here are some of what we look at:\n\n" );
-        notes.append(  "- launch direction,\n" );
-        notes.append(  "- ball speed,\n" );
-        notes.append(  "- club speed,\n" );
-        notes.append(  "- max height,\n" );
-        notes.append(  "- carry,\n" );
-        notes.append(  "- carry side,\n" );
-        notes.append(  "- landing angle, and\n" );
-        notes.append(  "- spin rate.\n\n" );
-        notes.append( "Results & Recommendations\n\n" );
-        notes.append(  "- The bottom chart on the left indicates a tendency to slice both iron and driver shots. Here are a few things you can try:\n " );
-        notes.append(  " > close your stance a little,\n" );
-        notes.append(  "  > keep you club face square,\n" );
-        notes.append(  "  > tilt your shoulders away from the target,\n" );
-        notes.append(  "  > turn your hands to the right on your grip, and\n" );
-        notes.append(  "  > make sure you are aiming straight at your target,\n" );
-        notes.append(  "- The top chart on the left indicates your max height is the same for both clubs which is good but the overall height is a bit high. Try moving the ball back in your stance. " );
-        txaNotes.setText( notes.toString() );
-        add( txaNotes, gbc );
+        notes.append( "<b>Summary</b>" );
+        notes.append( "<p>" );
+        notes.append( "We look at many attributes of your shot to determine the appropriate training plan. Here are some of what we look at:" );
+        notes.append( "<ul>" );
+        notes.append( "  <li>launch direction,</li>" );
+        notes.append( "  <li>ball speed,</li>" );
+        notes.append( "  <li>club speed,</li>" );
+        notes.append( "  <li>max height,</li>" );
+        notes.append( "  <li>carry distance,</li>" );
+        notes.append( "  <li>carry side distance,</li>" );
+        notes.append( "  <li>landing angle, and</li>" );
+        notes.append( "  <li>spin rate.</li>" );
+        notes.append( "</ul>" );
+        notes.append( "<p>" );
+        notes.append( "<b>Findings & Recommendations</b>" );
+        notes.append( "<p>" );
+        notes.append( "The bottom chart on the left indicates your accuracy could be improved since 3 of the 5 shots were pushed to the right. Here are a few things you can try:" );
+        notes.append( "<ul>" );
+        notes.append( "  <li>slow down your swing,</li>" );
+        notes.append( "  <li>keep shoulders square with the ball,</li>" );
+        notes.append( "  <li>pick specific targets in the fairway,</li>" );
+        notes.append( "  <li>keep body aligned to target, and</li>" );
+        notes.append( "  <li>make sure to keep head down until back shoulder brings it forward.</li>" );
+        notes.append( "</ul>" );
+        notes.append( "<p>" );
+        notes.append( "The top chart on the left indicates your max height is not as consistent as it could be. Try the following:" );
+        notes.append( "<ul>" );
+        notes.append( "  <li>position the ball for longer yardage clubs toward the front foot of your stance, and</li>" );
+        notes.append( "  <li>position the ball for shorter yardage clubs toward the center of your stance.</li>" );
+        notes.append( "</ul>" );
+        return notes.toString();
     }
 
 }

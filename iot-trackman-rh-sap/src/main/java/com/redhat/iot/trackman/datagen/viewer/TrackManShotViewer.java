@@ -26,7 +26,7 @@ public final class TrackManShotViewer {
                     sideShotViewer.setPreferredSize( new Dimension( 1000, 400 ) );
                     
                     final ResultsPanel resultsPanel = new ResultsPanel();
-                    resultsPanel.setPreferredSize( new Dimension( 200, 800 ) );
+                    resultsPanel.setPreferredSize( new Dimension( 300, 800 ) );
 
                     final JFrame frame = new JFrame( "Historical Shot Data" );
                     frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

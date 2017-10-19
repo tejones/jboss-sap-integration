@@ -76,7 +76,7 @@ abstract class TrackManDataGenerator {
 
     private static final String CSV_PATTERN = "%s,%s,%s,%s"; // shotId, x, y, z
     private static final boolean DEBUG = false;
-    private static final String INPUT_FILE = "src/main/resources/trackman/trackman-messages.json";
+    private static final String INPUT_FILE = "src/main/resources/trackman/shots.json";
     private static final String HANA_OUTPUT_FILE = "src/main/resources/generated/HanaSchema.ddl";
     private static final String SA_OUTPUT_FILE = "src/main/resources/generated/SqlAnywhereSchema.ddl";
 
@@ -273,9 +273,9 @@ abstract class TrackManDataGenerator {
     private void processFlightDataRecord( final JSONObject jobj ) {
         if ( DEBUG ) System.out.println( "\tFlightData" );
 
+        final String shotId = jobj.get( JsonId.ID ).toString();
         final JSONObject payload = ( JSONObject )jobj.get( JsonId.PAYLOAD );
         final JSONObject data = ( JSONObject )payload.get( JsonId.DATA );
-        final String shotId = data.get( JsonId.ID ).toString();
         final Shot shot = this.shots.get( shotId );
 
         if ( shot == null ) {
@@ -396,9 +396,9 @@ abstract class TrackManDataGenerator {
         if ( DEBUG ) System.out.println( "\tLiveApex" );
 
         // add max height to shot
+        final String shotId = jobj.get( JsonId.ID ).toString();
         final JSONObject payload = ( JSONObject )jobj.get( JsonId.PAYLOAD );
         final JSONObject data = ( JSONObject )payload.get( JsonId.DATA );
-        final String shotId = data.get( JsonId.ID ).toString();
         final Shot shot = this.shots.get( shotId );
 
         if ( shot == null ) {
@@ -411,8 +411,8 @@ abstract class TrackManDataGenerator {
     private void processLiveTrajectoryRecord( final JSONObject jobj ) {
         if ( DEBUG ) System.out.println( "\tLiveTrajectory" );
 
+        final String shotId = jobj.get( JsonId.ID ).toString();
         final JSONObject payload = ( JSONObject )jobj.get( JsonId.PAYLOAD );
-        final String shotId = payload.get( JsonId.ID ).toString();
 
         if ( this.shots.get( shotId ) == null ) {
             throw new RuntimeException( "Shot with ID '" + shotId + "' not found to process LiveTrajectory message" );
@@ -467,9 +467,9 @@ abstract class TrackManDataGenerator {
         if ( DEBUG ) System.out.println( "\tMeasurement" );
 
         // add spin rate to shot
+        final String shotId = jobj.get( JsonId.ID ).toString();
         final JSONObject payload = ( JSONObject )jobj.get( JsonId.PAYLOAD );
         final JSONObject data = ( JSONObject )payload.get( JsonId.DATA );
-        final String shotId = data.get( JsonId.ID ).toString();
         final Shot shot = this.shots.get( shotId );
 
         if ( shot == null ) {
