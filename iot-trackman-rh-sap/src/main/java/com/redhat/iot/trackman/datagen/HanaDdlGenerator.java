@@ -26,7 +26,7 @@ final class HanaDdlGenerator extends TrackManDataGenerator {
     }
 
     private String formatTime( final String shotTime ) {
-        final int index = shotTime.indexOf( '+' );
+        final int index = shotTime.indexOf( '-' );
         return shotTime.substring( 0, index );
     }
 

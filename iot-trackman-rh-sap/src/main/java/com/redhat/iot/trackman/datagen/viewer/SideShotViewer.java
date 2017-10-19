@@ -180,10 +180,10 @@ final class SideShotViewer extends JPanel {
         }
 
         // plot shots
-        Color lastLineColor = null;
+//        Color lastLineColor = null;
         int colorIndex = 0;
-        int lastX = 0;
-        int lastY = 0;
+//        int lastX = 0;
+//        int lastY = 0;
 
         for ( final String shotId : sideGraphPoints.keySet() ) {
             final List< Point > points = sideGraphPoints.get( shotId );
@@ -197,37 +197,37 @@ final class SideShotViewer extends JPanel {
                 final int xOne = points.get( i ).x;
                 final int yOne = points.get( i ).y;
                 final int xTwo = points.get( i + 1 ).x;
-                lastX = xTwo;
+//                lastX = xTwo;
                 final int yTwo = points.get( i + 1 ).y;
-                lastY = yTwo;
+//                lastY = yTwo;
                 g2.drawLine( xOne, yOne, xTwo, yTwo );
             }
 
             g2.setStroke( oldStroke );
             g2.setColor( ViewerModel.POINT_COLORS[ colorIndex ] );
             
-            Point lastPoint = null;
+//            Point lastPoint = null;
 
             for ( final Point point : points ) {
-                lastPoint = point;
+//                lastPoint = point;
                 final int x = point.x - ( this.model.getPointWidth() / 2 );
                 final int y = point.y - ( this.model.getPointWidth() / 2 );
                 final int ovalW = this.model.getPointWidth();
                 final int ovalH = this.model.getPointWidth();
                 g2.fillOval( x, y, ovalW, ovalH );
             }
-
-            { // plot shot label
-                final Color saveColor = g2.getColor();
-                final boolean ironShot = lastPoint.x < 200 * xScale;
-                final String label = ( ironShot ? "Mean Iron Shot" : "Mean Driver Shot" );
-                final int labelWidth = g2.getFontMetrics().stringWidth( label );
-                g2.setColor( lastLineColor );
-                final int x = ironShot ? lastX : lastX - ( 2 * labelWidth );
-                final int y = ironShot ? lastY - 20 : lastY - 50;
-                g2.drawString( label, x, y );
-                g2.setColor( saveColor );
-            }
+//
+//            { // plot shot label
+//                final Color saveColor = g2.getColor();
+//                final boolean ironShot = lastPoint.x < 200 * xScale;
+//                final String label = ( ironShot ? "Mean Iron Shot" : "Mean Driver Shot" );
+//                final int labelWidth = g2.getFontMetrics().stringWidth( label );
+//                g2.setColor( lastLineColor );
+//                final int x = ironShot ? lastX : lastX - ( 2 * labelWidth );
+//                final int y = ironShot ? lastY - 20 : lastY - 50;
+//                g2.drawString( label, x, y );
+//                g2.setColor( saveColor );
+//            }
 
             colorIndex++;
 

@@ -162,17 +162,17 @@ final class HeightShotViewer extends JPanel {
                      getHeight() - this.model.getPadding() - this.model.getLabelPadding() );
 
         // plot shots
-        Color lastLineColor = null;
+//        Color lastLineColor = null;
         int colorIndex = 0;
-        int lastX = 0;
-        int lastY = 0;
+//        int lastX = 0;
+//        int lastY = 0;
 
         for ( final String shotId : heightGraphPoints.keySet() ) {
             final List< Point > points = heightGraphPoints.get( shotId );
 
             final Stroke oldStroke = g2.getStroke();
             final Color lineColor = ViewerModel.LINE_COLORS[ colorIndex ];
-            lastLineColor = lineColor;
+//            lastLineColor = lineColor;
             g2.setColor( lineColor );
             g2.setStroke( ViewerModel.GRAPH_STROKE );
 
@@ -180,36 +180,36 @@ final class HeightShotViewer extends JPanel {
                 final int x1 = points.get( i ).x;
                 final int y1 = points.get( i ).y;
                 final int x2 = points.get( i + 1 ).x;
-                lastX = x2;
+//                lastX = x2;
                 final int y2 = points.get( i + 1 ).y;
-                lastY = y2;
+//                lastY = y2;
                 g2.drawLine( x1, y1, x2, y2 );
             }
 
             g2.setStroke( oldStroke );
             g2.setColor( ViewerModel.POINT_COLORS[ colorIndex ] );
             
-            Point lastPoint = null;
+//            Point lastPoint = null;
 
             for ( final Point point : points ) {
-                lastPoint = point;
+//                lastPoint = point;
                 final int x = point.x - ( this.model.getPointWidth() / 2 );
                 final int y = point.y - ( this.model.getPointWidth() / 2 );
                 final int ovalW = this.model.getPointWidth();
                 final int ovalH = this.model.getPointWidth();
                 g2.fillOval( x, y, ovalW, ovalH );
             }
-
-            { // plot shot label
-                final Color saveColor = g2.getColor();
-                final String label = ( lastPoint.x < 200 * xScale ? "Mean Iron Shot" : "Mean Driver Shot" );
-                final int labelWidth = g2.getFontMetrics().stringWidth( label );
-                g2.setColor( lastLineColor );
-                g2.drawString( label,
-                               lastX - labelWidth - this.model.getLabelPadding(),
-                               lastY - 20 );
-                g2.setColor( saveColor );
-            }
+//
+//            { // plot shot label
+//                final Color saveColor = g2.getColor();
+//                final String label = ( lastPoint.x < 200 * xScale ? "Mean Iron Shot" : "Mean Driver Shot" );
+//                final int labelWidth = g2.getFontMetrics().stringWidth( label );
+//                g2.setColor( lastLineColor );
+//                g2.drawString( label,
+//                               lastX - labelWidth - this.model.getLabelPadding(),
+//                               lastY - 20 );
+//                g2.setColor( saveColor );
+//            }
             
             colorIndex++;
 
